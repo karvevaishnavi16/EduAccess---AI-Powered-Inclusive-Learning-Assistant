@@ -14,7 +14,13 @@ export function ThemeProvider({ children }) {
   });
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", darkMode);
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+      document.body.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      document.body.classList.remove("dark");
+    }
 
     localStorage.setItem(
       "eduaccess-theme",
@@ -22,17 +28,12 @@ export function ThemeProvider({ children }) {
     );
   }, [darkMode]);
 
-  const toggleTheme = () => {
+  function toggleTheme() {
     setDarkMode((current) => !current);
-  };
+  }
 
   return (
-    <ThemeContext.Provider
-      value={{
-        darkMode,
-        toggleTheme,
-      }}
-    >
+    <ThemeContext.Provider value={{ darkMode, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );
